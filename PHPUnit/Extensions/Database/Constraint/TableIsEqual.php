@@ -56,68 +56,67 @@
 class PHPUnit_Extensions_Database_Constraint_TableIsEqual extends PHPUnit_Framework_Constraint
 {
 
-    /**
-     * @var PHPUnit_Extensions_Database_DataSet_ITable
-     */
-    protected $value;
+	/**
+	 * @var PHPUnit_Extensions_Database_DataSet_ITable
+	 */
+	protected $value;
 
-    /**
-     * @var string
-     */
-    protected $failure_reason;
+	/**
+	 * @var string
+	 */
+	protected $failure_reason;
 
-    /**
-     * Creates a new constraint.
-     *
-     * @param PHPUnit_Extensions_Database_DataSet_ITable $value
-     */
-    public function __construct(PHPUnit_Extensions_Database_DataSet_ITable $value)
-    {
-        $this->value = $value;
-    }
+	/**
+	 * Creates a new constraint.
+	 *
+	 * @param PHPUnit_Extensions_Database_DataSet_ITable $value
+	 */
+	public function __construct(PHPUnit_Extensions_Database_DataSet_ITable $value)
+	{
+		$this->value = $value;
+	}
 
-    /**
-     * Determines whether or not the given table matches the table used to
-     * create this constraint.
-     *
-     * @param PHPUnit_Extensions_Database_DataSet_ITable $other
-     * @return bool
-     */
-    public function evaluate($other)
-    {
-        if ($other instanceof PHPUnit_Extensions_Database_DataSet_ITable) {
-            try {
-                $this->value->assertEquals($other);
-                return TRUE;
-            } catch (Exception $e) {
-                $this->failure_reason = $e->getMessage();
-                return FALSE;
-            }
-        } else {
-            throw new InvalidArgumentException("PHPUnit_Extensions_Database_DataSet_ITable expected");
-        }
-    }
+	/**
+	 * Determines whether or not the given table matches the table used to
+	 * create this constraint.
+	 *
+	 * @param PHPUnit_Extensions_Database_DataSet_ITable $other
+	 * @return bool
+	 */
+	public function evaluate($other)
+	{
+		if ($other instanceof PHPUnit_Extensions_Database_DataSet_ITable) {
+			try {
+				$this->value->assertEquals($other);
+				return TRUE;
+			} catch (Exception $e) {
+				$this->failure_reason = $e->getMessage();
+				return FALSE;
+			}
+		} else {
+			throw new InvalidArgumentException("PHPUnit_Extensions_Database_DataSet_ITable expected");
+		}
+	}
 
-    protected function customFailureDescription($other, $description, $not)
-    {
-        return sprintf(
+	protected function customFailureDescription($other, $description, $not)
+	{
+		return sprintf(
           'Failed asserting that actual %s %s Reason: %s',
 
-           $other->__toString(),
-           $this->toString(),
-           $this->failure_reason
-         );
-    }
+		$other->__toString(),
+		$this->toString(),
+		$this->failure_reason
+		);
+	}
 
-    /**
-     * Returns a string representation of the constraint.
-     *
-     * @return string
-     */
-    public function toString()
-    {
-        return sprintf('is equal to expected %s',
-
-        PHPUnit_Util_Type::toString($this->value));
-    }
+	/**
+	 * Returns a string representation of the constraint.
+	 *
+	 * @return string
+	 */
+	public function toString()
+	{
+		return sprintf('is equal to expected %s',
+		$this->value->__toString());
+	}
 }
